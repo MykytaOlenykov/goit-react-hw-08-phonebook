@@ -1,8 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-
-// fetchContacts - одержання масиву контактів (метод GET) запитом. Базовий тип екшену "contacts/fetchAll".
-// addContact - додавання контакту (метод POST). Базовий тип екшену "contacts/addContact".
-// deleteContact - видалення контакту (метод DELETE). Базовий тип екшену "contacts/deleteContact"
+import { createSlice, isPending, isRejected } from '@reduxjs/toolkit';
+import { fetchContacts, addContact, deleteContact } from './operations';
 
 const handlePending = state => {
   state.isLoading = true;
@@ -35,21 +32,14 @@ const handleDeleteContact = (state, action) => {
 const contactsSlice = createSlice({
   name: 'contacts',
   initialState: { items: [], isLoading: false, error: null },
-  reducers: {
-    fetchingInProgress: handlePending,
-    fetchingSuccess: handleGetContacts,
-    fetchingError: handleRejected,
-    addContactInStore: handleAddContact,
-    deleteContactInStore: handleDeleteContact,
+  extraReducers: builder => {
+    builder
+      .addCase(fetchContacts.fulfilled, handleGetContacts)
+      .addCase(addContact.fulfilled, handleAddContact)
+      .addCase(deleteContact.fulfilled, handleDeleteContact)
+      .addMatcher(isPending, handlePending)
+      .addMatcher(isRejected, handleRejected);
   },
 });
-
-export const {
-  fetchingInProgress,
-  fetchingSuccess,
-  fetchingError,
-  addContactInStore,
-  deleteContactInStore,
-} = contactsSlice.actions;
 
 export const contactsReducer = contactsSlice.reducer;
