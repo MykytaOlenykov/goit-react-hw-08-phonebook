@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
-import { addContact } from 'redux/contactsSlice';
-import { getContacts } from 'redux/selectors';
+import { addContact } from 'redux/operations';
+import { selectContacts } from 'redux/selectors';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import * as S from './ContactForm.styled';
@@ -44,7 +44,7 @@ export const ContactForm = () => {
     defaultValues: initialValues,
     resolver: yupResolver(schema),
   });
-  const contacts = useSelector(getContacts);
+  const { items: contacts } = useSelector(selectContacts);
   const dispatch = useDispatch();
 
   const onSubmit = ({ name, number }) => {
