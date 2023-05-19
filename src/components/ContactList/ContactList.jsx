@@ -1,31 +1,29 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteContact } from 'redux/operations';
-import { selectContacts, selectFilter } from 'redux/selectors';
+import { selectIsLoading, selectVisibleContacts } from 'redux/selectors';
 import * as S from './ContactList.styled';
 
 export const ContactList = () => {
-  const { items: contacts } = useSelector(selectContacts);
-  const filter = useSelector(selectFilter);
+  const isLoading = useSelector(selectIsLoading);
+  const visibleContacts = useSelector(selectVisibleContacts);
   const dispatch = useDispatch();
 
   const handleDelete = contactId => {
     dispatch(deleteContact(contactId));
   };
 
-  const getFilteredContacts = () => {
-    return contacts.filter(({ name }) => name.toLowerCase().includes(filter));
-  };
-
-  const filteredContacts = getFilteredContacts();
-
   return (
     <S.List>
-      {filteredContacts.map(({ id, name, number }) => (
+      {visibleContacts.map(({ id, name, number }) => (
         <S.Item key={id}>
           <p>
             {name}: {number}
           </p>
-          <S.Button type="button" onClick={() => handleDelete(id)}>
+          <S.Button
+            type="button"
+            onClick={() => handleDelete(id)}
+            disabled={isLoading}
+          >
             Delete
           </S.Button>
         </S.Item>

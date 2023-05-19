@@ -1,16 +1,19 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectContacts } from 'redux/selectors';
+import { Toaster } from 'react-hot-toast';
+import { selectError, selectIsLoading } from 'redux/selectors';
 import { fetchContacts } from 'redux/operations';
 import { ContactForm } from 'components/ContactForm';
 import { Filter } from 'components/Filter';
+import { ContactList } from 'components/ContactList';
+import { Loader } from 'components/Loader';
+import { ErrorMessage } from 'components/ErrorMessage';
 import { GlobalStyle } from 'components/GlobalStyle';
 import * as S from './App.styled';
-import { ContactList } from 'components/ContactList';
-import { Loader } from 'components/Loader/Loader';
 
 export const App = () => {
-  const { items, isLoading, error } = useSelector(selectContacts);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,15 +23,18 @@ export const App = () => {
   return (
     <S.Container>
       <GlobalStyle />
+      <Toaster position="top-center" reverseOrder={false} />
 
       <S.PrimaryTitle>Phonebook</S.PrimaryTitle>
       <ContactForm />
 
-      <S.SecondaryTitle>Contacts</S.SecondaryTitle>
+      <S.TitleBox>
+        <S.SecondaryTitle>Contacts</S.SecondaryTitle>
+        {isLoading && <Loader />}
+      </S.TitleBox>
       <Filter />
-      {isLoading && <Loader />}
-      {error && <p>{error}</p>}
-      <ContactList contacts={items} />
+      {error && <ErrorMessage errorText={error} />}
+      <ContactList />
     </S.Container>
   );
 };

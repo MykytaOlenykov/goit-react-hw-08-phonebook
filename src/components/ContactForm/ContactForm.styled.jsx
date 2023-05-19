@@ -51,7 +51,11 @@ export const Button = styled.button`
     ${({ theme }) => `${theme.duration} ${theme.timingFunction}`};
   cursor: pointer;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: ${({ theme }) => theme.colors.secondaryBg};
+  }
+
+  &:disabled {
+    opacity: 0.5;
   }
 `;

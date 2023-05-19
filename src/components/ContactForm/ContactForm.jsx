@@ -1,7 +1,8 @@
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
+import { toast } from 'react-hot-toast';
 import { addContact } from 'redux/operations';
-import { selectContacts } from 'redux/selectors';
+import { selectContacts, selectIsLoading } from 'redux/selectors';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import * as S from './ContactForm.styled';
@@ -44,12 +45,13 @@ export const ContactForm = () => {
     defaultValues: initialValues,
     resolver: yupResolver(schema),
   });
-  const { items: contacts } = useSelector(selectContacts);
+  const contacts = useSelector(selectContacts);
+  const isLoading = useSelector(selectIsLoading);
   const dispatch = useDispatch();
 
   const onSubmit = ({ name, number }) => {
     if (contactValidationByName(name)) {
-      alert(`${name} is already in contacts.`);
+      toast.error(`${name} is already in contacts.`);
       return;
     }
 
@@ -80,7 +82,9 @@ export const ContactForm = () => {
         {errors.number && <S.ErrorText>{errors.number?.message}</S.ErrorText>}
       </S.Label>
 
-      <S.Button type="submit">Add contact</S.Button>
+      <S.Button type="submit" disabled={isLoading}>
+        Add contact
+      </S.Button>
     </S.ContactForm>
   );
 };

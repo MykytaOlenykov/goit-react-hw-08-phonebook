@@ -11,3 +11,9 @@ export const PrimaryTitle = styled.h1`
 export const SecondaryTitle = styled.h2`
   margin-bottom: 12px;
 `;
+
+export const TitleBox = styled.div`
+  position: relative;
+
+  display: inline-block;
+`;
