@@ -1,10 +1,11 @@
 import { useForm } from 'react-hook-form';
-import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-hot-toast';
-import { addContact } from 'redux/operations';
-import { selectContacts, selectIsLoading } from 'redux/selectors';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import PropTypes from 'prop-types';
+import { useAddContactMutation } from 'redux/contactsSlice';
+import { ButtonLoader } from 'components/Loaders';
+import { ErrorMessage } from 'components/ErrorMessage';
 import * as S from './ContactForm.styled';
 
 const validatePattern = {
@@ -35,7 +36,7 @@ const initialValues = {
   number: '',
 };
 
-export const ContactForm = () => {
+export const ContactForm = ({ contacts }) => {
   const {
     register,
     handleSubmit,
@@ -45,17 +46,17 @@ export const ContactForm = () => {
     defaultValues: initialValues,
     resolver: yupResolver(schema),
   });
-  const contacts = useSelector(selectContacts);
-  const isLoading = useSelector(selectIsLoading);
-  const dispatch = useDispatch();
 
-  const onSubmit = ({ name, number }) => {
+  const [addContact, { isLoading: isAdding, isError, error }] =
+    useAddContactMutation();
+
+  const onSubmit = async ({ name, number }) => {
     if (contactValidationByName(name)) {
       toast.error(`${name} is already in contacts.`);
       return;
     }
 
-    dispatch(addContact({ name, number }));
+    await addContact({ name, number });
     reset();
   };
 
@@ -82,9 +83,21 @@ export const ContactForm = () => {
         {errors.number && <S.ErrorText>{errors.number?.message}</S.ErrorText>}
       </S.Label>
 
-      <S.Button type="submit" disabled={isLoading}>
-        Add contact
+      <S.Button type="submit" disabled={isAdding}>
+        {isAdding && <ButtonLoader />} Add contact
       </S.Button>
+
+      {isError && <ErrorMessage errorText={error.status} />}
     </S.ContactForm>
   );
+};
+
+ContactForm.propTypes = {
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      number: PropTypes.string.isRequired,
+    })
+  ),
 };

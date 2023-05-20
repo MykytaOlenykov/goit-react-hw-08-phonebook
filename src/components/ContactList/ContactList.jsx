@@ -1,33 +1,34 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { deleteContact } from 'redux/operations';
-import { selectIsLoading, selectVisibleContacts } from 'redux/selectors';
+import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import { selectFilter } from 'redux/selectors';
+import { Contact } from 'components/Contact';
 import * as S from './ContactList.styled';
 
-export const ContactList = () => {
-  const isLoading = useSelector(selectIsLoading);
-  const visibleContacts = useSelector(selectVisibleContacts);
-  const dispatch = useDispatch();
+export const ContactList = ({ contacts }) => {
+  const filter = useSelector(selectFilter);
 
-  const handleDelete = contactId => {
-    dispatch(deleteContact(contactId));
-  };
+  const visibleContacts = useMemo(() => {
+    return contacts.filter(({ name }) => name.toLowerCase().includes(filter));
+  }, [contacts, filter]);
 
   return (
     <S.List>
       {visibleContacts.map(({ id, name, number }) => (
         <S.Item key={id}>
-          <p>
-            {name}: {number}
-          </p>
-          <S.Button
-            type="button"
-            onClick={() => handleDelete(id)}
-            disabled={isLoading}
-          >
-            Delete
-          </S.Button>
+          <Contact contactId={id} name={name} number={number} />
         </S.Item>
       ))}
     </S.List>
   );
+};
+
+ContactList.propTypes = {
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      number: PropTypes.string.isRequired,
+    })
+  ),
 };

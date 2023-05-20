@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const ErrorText = styled.p`
   display: inline-block;
-  margin-top: 4px;
+  margin-top: 8px;
   padding: 8px;
   font-size: 18px;
   line-height: 1.5;

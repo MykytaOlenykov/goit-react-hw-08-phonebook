@@ -41,6 +41,9 @@ export const ErrorText = styled.p`
 `;
 
 export const Button = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 4px;
   padding: 4px 12px;
   color: ${({ theme }) => theme.colors.primaryText};
   background-color: ${({ theme }) => theme.colors.primaryBg};

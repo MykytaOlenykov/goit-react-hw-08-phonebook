@@ -1,24 +1,16 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Toaster } from 'react-hot-toast';
-import { selectError, selectIsLoading } from 'redux/selectors';
-import { fetchContacts } from 'redux/operations';
+import { useFetchContactsQuery } from 'redux/contactsSlice';
 import { ContactForm } from 'components/ContactForm';
 import { Filter } from 'components/Filter';
 import { ContactList } from 'components/ContactList';
-import { Loader } from 'components/Loader';
+import { Loader } from 'components/Loaders';
 import { ErrorMessage } from 'components/ErrorMessage';
 import { GlobalStyle } from 'components/GlobalStyle';
 import * as S from './App.styled';
 
 export const App = () => {
-  const isLoading = useSelector(selectIsLoading);
-  const error = useSelector(selectError);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
+  const { data, error, isSuccess, isError, isFetching } =
+    useFetchContactsQuery();
 
   return (
     <S.Container>
@@ -26,15 +18,18 @@ export const App = () => {
       <Toaster position="top-center" reverseOrder={false} />
 
       <S.PrimaryTitle>Phonebook</S.PrimaryTitle>
-      <ContactForm />
+
+      <ContactForm contacts={data} />
 
       <S.TitleBox>
         <S.SecondaryTitle>Contacts</S.SecondaryTitle>
-        {isLoading && <Loader />}
+        {isFetching && <Loader />}
       </S.TitleBox>
+
       <Filter />
-      {error && <ErrorMessage errorText={error} />}
-      <ContactList />
+
+      {isError && <ErrorMessage errorText={error.status} />}
+      {isSuccess && <ContactList contacts={data} />}
     </S.Container>
   );
 };
