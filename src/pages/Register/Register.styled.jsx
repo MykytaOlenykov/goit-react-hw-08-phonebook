@@ -3,6 +3,8 @@ import backgroundImg from 'images/background.jpg';
 import backgroundImg2x from 'images/background@2x.jpg';
 
 export const Section = styled.section`
+  padding-top: 72px;
+
   &::after {
     content: '';
     position: absolute;
@@ -11,7 +13,7 @@ export const Section = styled.section`
     z-index: -1;
     display: block;
     width: 100%;
-    height: 520px;
+    height: 400px;
     background-image: url(${backgroundImg});
     background-size: cover;
     background-position: center;
@@ -41,7 +43,7 @@ export const Title = styled.h1`
 `;
 
 export const Text = styled.p`
-  margin-bottom: 113px;
+  margin-bottom: 80px;
   font-weight: 700;
   font-size: 32px;
   line-height: 1.3;

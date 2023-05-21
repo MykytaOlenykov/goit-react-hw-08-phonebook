@@ -5,7 +5,6 @@ export const Header = styled.header`
   justify-content: space-between;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 55px;
   padding: 18px 24px;
   background-image: linear-gradient(
     112.83deg,

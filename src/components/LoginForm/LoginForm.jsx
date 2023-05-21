@@ -1,15 +1,13 @@
 import { useForm } from 'react-hook-form';
-import { userNameNormalization } from 'utils';
 import { validatePattern, errorMessage } from 'constants';
-import * as S from './RegisterForm.styled';
+import * as S from './LoginForm.styled';
 
 const initialValues = {
-  name: '',
   email: '',
   password: '',
 };
 
-export const RegisterForm = () => {
+export const LoginForm = () => {
   const {
     register,
     handleSubmit,
@@ -19,9 +17,8 @@ export const RegisterForm = () => {
     defaultValues: initialValues,
   });
 
-  const onSubmit = ({ name, email, password }) => {
-    const normalizedName = userNameNormalization(name);
-    console.log({ name, email, password });
+  const onSubmit = ({ email, password }) => {
+    console.log(1);
     // if (validationFormData(data)) {
     //   toast.error(`Enter valid values.`);
     //   return;
@@ -33,26 +30,13 @@ export const RegisterForm = () => {
   //   const validationFormData = newData => {};
 
   return (
-    <S.RegisterForm
+    <S.LoginForm
       autoComplete="off"
       onSubmit={handleSubmit(data => {
         onSubmit(data);
       })}
     >
-      <S.Title>Register</S.Title>
-
-      <S.Label>
-        <S.TextLabel>Name</S.TextLabel>
-        <S.Input
-          {...register('name')}
-          type="text"
-          pattern={validatePattern.name}
-          title={errorMessage.name}
-          required
-          placeholder="Your full name"
-        />
-        {errors.name && <S.ErrorText>{errors.name?.message}</S.ErrorText>}
-      </S.Label>
+      <S.Title>Enter your email and password to sign in</S.Title>
 
       <S.Label>
         <S.TextLabel>Email</S.TextLabel>
@@ -80,9 +64,9 @@ export const RegisterForm = () => {
       <S.Button type="submit">Sing up</S.Button>
 
       <S.Text>
-        Already have an account?
-        <S.SignInLink to="/login">Sign in</S.SignInLink>
+        Don't have an account?
+        <S.SignInLink to="/register">Sign up</S.SignInLink>
       </S.Text>
-    </S.RegisterForm>
+    </S.LoginForm>
   );
 };
