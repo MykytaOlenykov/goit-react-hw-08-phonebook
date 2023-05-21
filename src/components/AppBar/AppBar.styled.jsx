@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const Header = styled.header`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-left: auto;
   margin-right: auto;
   padding: 18px 24px;

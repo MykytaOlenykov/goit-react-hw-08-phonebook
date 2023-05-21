@@ -1,4 +1,7 @@
+import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import { register as registerUser } from 'redux/auth/operations';
 import { userNameNormalization } from 'utils';
 import { validatePattern, errorMessage } from 'constants';
 import * as S from './RegisterForm.styled';
@@ -10,27 +13,22 @@ const initialValues = {
 };
 
 export const RegisterForm = () => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({
+  const { register, handleSubmit, reset } = useForm({
     defaultValues: initialValues,
   });
+  const dispatch = useDispatch();
 
   const onSubmit = ({ name, email, password }) => {
     const normalizedName = userNameNormalization(name);
-    console.log({ name, email, password });
-    // if (validationFormData(data)) {
-    //   toast.error(`Enter valid values.`);
-    //   return;
-    // }
 
-    // reset();
+    if (!normalizedName.trim()) {
+      toast.error('Enter valid name.');
+      return;
+    }
+
+    dispatch(registerUser({ name: normalizedName, email, password }));
+    reset();
   };
-
-  //   const validationFormData = newData => {};
 
   return (
     <S.RegisterForm
@@ -51,7 +49,6 @@ export const RegisterForm = () => {
           required
           placeholder="Your full name"
         />
-        {errors.name && <S.ErrorText>{errors.name?.message}</S.ErrorText>}
       </S.Label>
 
       <S.Label>
@@ -62,7 +59,6 @@ export const RegisterForm = () => {
           required
           placeholder="Your email address"
         />
-        {errors.email && <S.ErrorText>{errors.email?.message}</S.ErrorText>}
       </S.Label>
 
       <S.Label>

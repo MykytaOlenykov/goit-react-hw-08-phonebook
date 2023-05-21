@@ -1,5 +1,7 @@
+import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { validatePattern, errorMessage } from 'constants';
+import { logIn } from 'redux/auth/operations';
+import { errorMessage } from 'constants';
 import * as S from './LoginForm.styled';
 
 const initialValues = {
@@ -8,26 +10,15 @@ const initialValues = {
 };
 
 export const LoginForm = () => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({
+  const { register, handleSubmit, reset } = useForm({
     defaultValues: initialValues,
   });
+  const dispatch = useDispatch();
 
-  const onSubmit = ({ email, password }) => {
-    console.log(1);
-    // if (validationFormData(data)) {
-    //   toast.error(`Enter valid values.`);
-    //   return;
-    // }
-
-    // reset();
+  const onSubmit = data => {
+    dispatch(logIn(data));
+    reset();
   };
-
-  //   const validationFormData = newData => {};
 
   return (
     <S.LoginForm
@@ -46,7 +37,6 @@ export const LoginForm = () => {
           required
           placeholder="Your email address"
         />
-        {errors.email && <S.ErrorText>{errors.email?.message}</S.ErrorText>}
       </S.Label>
 
       <S.Label>

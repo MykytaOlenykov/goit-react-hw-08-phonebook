@@ -12,8 +12,8 @@ export const Section = styled.section`
     right: 0;
     z-index: -1;
     display: block;
-    width: 100%;
-    height: 240px;
+    width: 260px;
+    height: 260px;
     background-image: url(${backgroundImg});
     background-size: cover;
     background-position: center;
@@ -27,9 +27,14 @@ export const Section = styled.section`
       background-position: center;
     }
 
-    @media screen and (min-width: 1000px) {
-      width: 500px;
-      height: 500px;
+    @media screen and (min-width: 730px) {
+      width: calc(100vw - 480px);
+      height: calc(100vw - 480px);
+    }
+
+    @media screen and (min-width: 1080px) {
+      width: 600px;
+      height: 600px;
     }
   }
 `;

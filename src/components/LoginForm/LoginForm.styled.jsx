@@ -30,6 +30,8 @@ export const Input = styled.input`
   display: block;
   padding: 15px 20px;
   width: 100%;
+  font-size: 14px;
+  line-height: 1.4;
   background-color: ${({ theme }) => theme.colors.primary};
   border: 1px solid ${({ theme }) => theme.colors.inputBorder};
   border-radius: 15px;
