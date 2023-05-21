@@ -87,7 +87,7 @@ export const ContactForm = ({ contacts }) => {
         {isAdding && <ButtonLoader />} Add contact
       </S.Button>
 
-      {isError && <ErrorMessage errorText={error.status} />}
+      {isError && <ErrorMessage errorText={`Error: ${error.status}`} />}
     </S.ContactForm>
   );
 };

@@ -28,7 +28,7 @@ export const App = () => {
 
       <Filter />
 
-      {isError && <ErrorMessage errorText={error.status} />}
+      {isError && <ErrorMessage errorText={`Error: ${error.status}`} />}
       {isSuccess && <ContactList contacts={data} />}
     </S.Container>
   );

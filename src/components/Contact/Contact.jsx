@@ -13,7 +13,7 @@ export const Contact = ({ contactId, name, number }) => {
   };
 
   return (
-    <>
+    <S.ContactCard>
       <p>
         {name}: {number}
       </p>
@@ -24,8 +24,8 @@ export const Contact = ({ contactId, name, number }) => {
       >
         {isDeleting && <ButtonLoader />} Delete
       </S.Button>
-      {isError && <ErrorMessage errorText={error.status} />}
-    </>
+      {isError && <ErrorMessage errorText={`Error: ${error.status}`} />}
+    </S.ContactCard>
   );
 };
 
