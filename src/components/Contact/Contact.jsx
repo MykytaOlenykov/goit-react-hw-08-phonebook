@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useDeleteContactMutation } from 'redux/contactsSlice';
+import { useDeleteContactMutation } from 'redux/contacts/slice';
 import { ButtonLoader } from 'components/Loaders';
 import { ErrorMessage } from 'components/ErrorMessage';
 import * as S from './Contact.styled';

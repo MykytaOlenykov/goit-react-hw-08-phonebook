@@ -3,7 +3,7 @@ import { toast } from 'react-hot-toast';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import PropTypes from 'prop-types';
-import { useAddContactMutation } from 'redux/contactsSlice';
+import { useAddContactMutation } from 'redux/contacts/slice';
 import { ButtonLoader } from 'components/Loaders';
 import { ErrorMessage } from 'components/ErrorMessage';
 import * as S from './ContactForm.styled';

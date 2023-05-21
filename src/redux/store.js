@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
-import { contactsApi } from './contactsSlice';
-import { filterReducer } from './filterSlice';
+import { authApi } from './auth/slice';
+import { contactsApi } from './contacts/slice';
+import { filterReducer } from './filter/slice';
 
 export const store = configureStore({
   reducer: {
+    [authApi.reducerPath]: authApi.reducer,
     [contactsApi.reducerPath]: contactsApi.reducer,
     filter: filterReducer,
   },
