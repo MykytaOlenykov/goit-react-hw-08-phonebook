@@ -24,7 +24,7 @@ export const RegisterForm = () => {
   const onSubmit = ({ name, email, password }) => {
     const normalizedName = userNameNormalization(name);
 
-    if (!normalizedName.trim()) {
+    if (!normalizedName) {
       toast.error('Enter valid name.');
       return;
     }

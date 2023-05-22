@@ -49,16 +49,6 @@ export const Input = styled.input`
   }
 `;
 
-export const ErrorText = styled.p`
-  margin-top: 4px;
-  padding: 8px;
-  font-size: 12px;
-  color: ${({ theme }) => theme.colors.secondaryText};
-  background-color: ${({ theme }) => theme.colors.primaryBg};
-  border: 1px solid #d1cb4f;
-  border-radius: 8px;
-`;
-
 export const Button = styled.button`
   display: flex;
   justify-content: center;
@@ -84,7 +74,7 @@ export const Button = styled.button`
   }
 
   &:disabled {
-    opacity: 0.5;
+    opacity: 0.8;
   }
 `;
 

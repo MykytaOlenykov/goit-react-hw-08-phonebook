@@ -4,6 +4,8 @@ import backgroundImg2x from 'images/background@2x.jpg';
 
 export const Section = styled.section`
   padding-top: 72px;
+  padding-left: 24px;
+  padding-right: 24px;
 
   &::after {
     content: '';

@@ -4,4 +4,6 @@ export const errorMessage = Object.freeze({
     'Please enter a valid email address. Only alphanumeric characters, underscores, periods, hyphens, and the @ symbol are allowed.',
   password:
     'Please enter a password that is at least 8 characters long and contains at least one uppercase letter, one lowercase letter, and one digit.',
+  number:
+    'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +',
 });

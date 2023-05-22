@@ -13,13 +13,16 @@ export const Filter = () => {
 
   return (
     <>
-      <p>Find contacts by name</p>
-      <S.Input
-        onChange={handleChange}
-        value={filter}
-        name="filter"
-        type="text"
-      />
+      <S.Text>Find contacts by name</S.Text>
+      <S.Label aria-label="Contacts filter by name">
+        <S.Input
+          onChange={handleChange}
+          value={filter}
+          name="filter"
+          type="text"
+          placeholder="Type here..."
+        />
+      </S.Label>
     </>
   );
 };

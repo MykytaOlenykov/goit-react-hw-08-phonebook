@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { selectFilter } from 'redux/filter/selectors';
-import { Contact } from 'components/Contact';
+import { ContactCard } from 'components/ContactCard';
 import * as S from './ContactList.styled';
 
 export const ContactList = ({ contacts }) => {
@@ -16,7 +16,7 @@ export const ContactList = ({ contacts }) => {
     <S.List>
       {visibleContacts.map(({ id, name, number }) => (
         <S.Item key={id}>
-          <Contact contactId={id} name={name} number={number} />
+          <ContactCard contactId={id} name={name} number={number} />
         </S.Item>
       ))}
     </S.List>

@@ -1,35 +1,12 @@
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import PropTypes from 'prop-types';
 import { useAddContactMutation } from 'redux/contacts/slice';
-import { ButtonLoader } from 'components/BtnLoader';
-import { ErrorMessage } from 'components/ErrorMessage';
+import { BtnLoader } from 'components/BtnLoader';
+import { validatePattern, errorMessage } from 'constants';
+import { userNameNormalization } from 'utils';
 import * as S from './ContactForm.styled';
-
-const validatePattern = {
-  name: /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/,
-  number:
-    /^\+?\d{1,4}[-.\s]?\(?\d{1,3}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
-};
-
-const errorMessage = {
-  name: "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan",
-  number:
-    'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +',
-};
-
-const schema = yup.object().shape({
-  name: yup
-    .string()
-    .matches(validatePattern.name, errorMessage.name)
-    .required(),
-  number: yup
-    .string()
-    .matches(validatePattern.number, errorMessage.number)
-    .required(),
-});
 
 const initialValues = {
   name: '',
@@ -37,26 +14,26 @@ const initialValues = {
 };
 
 export const ContactForm = ({ contacts }) => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({
+  const { register, handleSubmit, reset } = useForm({
     defaultValues: initialValues,
-    resolver: yupResolver(schema),
   });
+  const [addContact, { isLoading: isAdding, error }] = useAddContactMutation();
 
-  const [addContact, { isLoading: isAdding, isError, error }] =
-    useAddContactMutation();
+  useEffect(() => {
+    if (error) {
+      toast.error('Something went wrong');
+    }
+  }, [error]);
 
   const onSubmit = async ({ name, number }) => {
-    if (contactValidationByName(name)) {
+    const normalizedName = userNameNormalization(name);
+
+    if (contactValidationByName(normalizedName)) {
       toast.error(`${name} is already in contacts.`);
       return;
     }
 
-    await addContact({ name, number });
+    await addContact({ name: normalizedName, number });
     reset();
   };
 
@@ -72,22 +49,36 @@ export const ContactForm = ({ contacts }) => {
       })}
     >
       <S.Label>
-        Name
-        <S.Input {...register('name')} type="text" />
-        {errors.name && <S.ErrorText>{errors.name?.message}</S.ErrorText>}
+        <S.TextLabel>Name</S.TextLabel>
+        <S.Input
+          {...register('name')}
+          type="text"
+          pattern={validatePattern.name}
+          title={errorMessage.name}
+          placeholder="Full name"
+          required
+        />
       </S.Label>
 
       <S.Label>
-        Number
-        <S.Input {...register('number')} type="tel" />
-        {errors.number && <S.ErrorText>{errors.number?.message}</S.ErrorText>}
+        <S.TextLabel>Number</S.TextLabel>
+        <S.Input
+          {...register('number')}
+          type="tel"
+          pattern={validatePattern.number}
+          title={errorMessage.number}
+          placeholder="Phone number"
+          required
+        />
       </S.Label>
 
       <S.Button type="submit" disabled={isAdding}>
-        {isAdding && <ButtonLoader />} Add contact
+        {isAdding ? (
+          <BtnLoader width="15" height="15" color="#fff" />
+        ) : (
+          'Add contact'
+        )}
       </S.Button>
-
-      {isError && <ErrorMessage errorText={`Error: ${error.status}`} />}
     </S.ContactForm>
   );
 };

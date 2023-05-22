@@ -4,6 +4,8 @@ import backgroundImg2x from 'images/backgroundCube@2x.jpg';
 
 export const Section = styled.section`
   padding-top: 188px;
+  padding-left: 24px;
+  padding-right: 24px;
 
   &::after {
     content: '';
@@ -30,6 +32,8 @@ export const Section = styled.section`
     @media screen and (min-width: ${({ theme }) => theme.breakpoint}) {
       top: 24px;
       right: 24px;
+      padding-left: 48px;
+      padding-right: 48px;
     }
 
     @media screen and (min-width: 730px) {

@@ -14,10 +14,14 @@ export const RegisterForm = styled.form`
   max-width: 452px;
   margin-left: auto;
   margin-right: auto;
-  padding: 45px 51px;
+  padding: 28px 24px;
   background-color: ${({ theme }) => theme.colors.primary};
   border-radius: 15px;
   box-shadow: 0px 7px 23px rgba(0, 0, 0, 0.05);
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoint}) {
+    padding: 45px 51px;
+  }
 `;
 
 export const Label = styled.label`
@@ -54,16 +58,6 @@ export const Input = styled.input`
   }
 `;
 
-export const ErrorText = styled.p`
-  margin-top: 4px;
-  padding: 8px;
-  font-size: 12px;
-  color: ${({ theme }) => theme.colors.secondaryText};
-  background-color: ${({ theme }) => theme.colors.primaryBg};
-  border: 1px solid #d1cb4f;
-  border-radius: 8px;
-`;
-
 export const Button = styled.button`
   display: flex;
   justify-content: center;
@@ -89,7 +83,7 @@ export const Button = styled.button`
   }
 
   &:disabled {
-    opacity: 0.5;
+    opacity: 0.8;
   }
 `;
 
