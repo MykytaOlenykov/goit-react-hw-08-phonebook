@@ -8,8 +8,8 @@ export const Section = styled.section`
   &::after {
     content: '';
     position: absolute;
-    top: 30px;
-    right: 24px;
+    top: 12px;
+    right: 12px;
     z-index: -1;
     display: block;
     width: 260px;
@@ -25,6 +25,11 @@ export const Section = styled.section`
       background-image: url(${backgroundImg2x});
       background-size: cover;
       background-position: center;
+    }
+
+    @media screen and (min-width: ${({ theme }) => theme.breakpoint}) {
+      top: 24px;
+      right: 24px;
     }
 
     @media screen and (min-width: 730px) {

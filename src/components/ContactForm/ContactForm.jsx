@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import PropTypes from 'prop-types';
 import { useAddContactMutation } from 'redux/contacts/slice';
-import { ButtonLoader } from 'components/Loaders';
+import { ButtonLoader } from 'components/BtnLoader';
 import { ErrorMessage } from 'components/ErrorMessage';
 import * as S from './ContactForm.styled';
 

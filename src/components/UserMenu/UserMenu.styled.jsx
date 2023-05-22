@@ -5,13 +5,29 @@ export const Container = styled.div`
   display: flex;
   gap: 32px;
   align-items: center;
+
+  @media screen and (max-width: calc(${({ theme }) =>
+      theme.breakpoint} - 1px)) {
+    &.desktop {
+      display: none;
+    }
+    gap: 12px;
+  }
 `;
 
 export const Email = styled.p`
+  max-width: 120px;
   font-weight: 700;
   font-size: 12px;
   line-height: 1.5;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
   color: ${({ theme }) => theme.colors.secondaryText};
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoint}) {
+    max-width: 180px;
+  }
 `;
 
 export const LogoutIcon = styled(IoLogOut)`
@@ -21,6 +37,7 @@ export const LogoutIcon = styled(IoLogOut)`
 `;
 
 export const Thumb = styled.div`
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -40,6 +57,7 @@ export const Logout = styled.button`
   gap: 4px;
   padding: 0;
   font-weight: 700;
+  white-space: nowrap;
   font-size: 12px;
   line-height: 1.5;
   color: ${({ theme }) => theme.colors.secondaryText};
@@ -47,7 +65,7 @@ export const Logout = styled.button`
   border: none;
   cursor: pointer;
 
-  &:hover ${Thumb} {
+  &:not(:disabled):hover ${Thumb} {
     border-color: ${({ theme }) => theme.colors.accent};
   }
 `;

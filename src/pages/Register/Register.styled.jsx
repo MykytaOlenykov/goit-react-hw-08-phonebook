@@ -8,11 +8,11 @@ export const Section = styled.section`
   &::after {
     content: '';
     position: absolute;
-    top: 24px;
+    top: 12px;
     left: 50%;
     z-index: -1;
     display: block;
-    width: calc(100% - 48px);
+    width: calc(100% - 24px);
     height: 400px;
     background-image: url(${backgroundImg});
     background-size: cover;
@@ -26,6 +26,11 @@ export const Section = styled.section`
       background-image: url(${backgroundImg2x});
       background-size: cover;
       background-position: center;
+    }
+
+    @media screen and (min-width: ${({ theme }) => theme.breakpoint}) {
+      top: 24px;
+      width: calc(100% - 48px);
     }
   }
 `;

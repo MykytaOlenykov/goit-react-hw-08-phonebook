@@ -1,25 +1,35 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import { logOut } from 'redux/auth/operations';
-import { selectUser } from 'redux/auth/selectors';
+import { useAuth } from 'hooks';
+import { BtnLoader } from 'components/BtnLoader';
 import * as S from './UserMenu.styled';
 
-export const UserMenu = () => {
+export const UserMenu = ({ className }) => {
   const dispatch = useDispatch();
-  const { email: userEmail } = useSelector(selectUser);
+  const { user, isLoading } = useAuth();
 
   const handleClick = () => {
     dispatch(logOut());
   };
 
   return (
-    <S.Container>
-      <S.Email>{userEmail}</S.Email>
-      <S.Logout type="button" onClick={handleClick}>
+    <S.Container className={className}>
+      <S.Email>{user.email}</S.Email>
+      <S.Logout type="button" onClick={handleClick} disabled={isLoading}>
         <S.Thumb>
-          <S.LogoutIcon />
+          {isLoading ? (
+            <BtnLoader width="15" height="15" color="#4FD1C5" />
+          ) : (
+            <S.LogoutIcon />
+          )}
         </S.Thumb>
         Log out
       </S.Logout>
     </S.Container>
   );
+};
+
+UserMenu.propTypes = {
+  className: PropTypes.string,
 };

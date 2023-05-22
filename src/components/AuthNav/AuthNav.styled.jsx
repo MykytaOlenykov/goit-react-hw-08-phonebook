@@ -6,6 +6,14 @@ import styled from 'styled-components';
 export const List = styled.ul`
   display: flex;
   gap: 32px;
+
+  @media screen and (max-width: calc(${({ theme }) =>
+      theme.breakpoint} - 1px)) {
+    &.desktop {
+      display: none;
+    }
+    gap: 12px;
+  }
 `;
 
 export const SignUpIcon = styled(IoIosRocket)`
@@ -21,6 +29,7 @@ export const SignInIcon = styled(IoKeySharp)`
 `;
 
 export const Thumb = styled.div`
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -39,6 +48,7 @@ export const Link = styled(NavLink)`
   align-items: center;
   gap: 4px;
   font-style: normal;
+  white-space: nowrap;
   font-weight: 700;
   font-size: 12px;
   line-height: 1.5;

@@ -1,7 +1,8 @@
+import PropTypes from 'prop-types';
 import * as S from './AuthNav.styled';
 
-export const AuthNav = () => (
-  <S.List>
+export const AuthNav = ({ className }) => (
+  <S.List className={className}>
     <li>
       <S.Link to="/register">
         <S.Thumb>
@@ -20,3 +21,7 @@ export const AuthNav = () => (
     </li>
   </S.List>
 );
+
+AuthNav.propTypes = {
+  className: PropTypes.string,
+};

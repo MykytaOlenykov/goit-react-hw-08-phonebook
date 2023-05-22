@@ -5,7 +5,11 @@ import styled from 'styled-components';
 
 export const List = styled.ul`
   display: flex;
-  gap: 32px;
+  gap: 12px;
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoint}) {
+    gap: 32px;
+  }
 `;
 
 export const HomeIcon = styled(IoHome)`
