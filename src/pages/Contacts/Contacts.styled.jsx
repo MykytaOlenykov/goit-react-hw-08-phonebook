@@ -51,7 +51,7 @@ export const Section = styled.section`
   }
 `;
 
-export const Title = styled.h1`
+export const SectionTitle = styled.h1`
   position: absolute;
   white-space: nowrap;
   width: 1px;
@@ -62,6 +62,20 @@ export const Title = styled.h1`
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
   margin: -1px;
+`;
+
+export const TextBox = styled.div`
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+
+export const Title = styled.h2`
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.4;
+  color: ${({ theme }) => theme.colors.primaryText};
 `;
 
 export const ContactsContainer = styled.div`

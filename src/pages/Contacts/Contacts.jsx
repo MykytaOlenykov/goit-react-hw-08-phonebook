@@ -2,23 +2,24 @@ import { useFetchContactsQuery } from 'redux/contacts/slice';
 import { AddContactForm } from 'components/ContactForm';
 import { Filter } from 'components/Filter';
 import { ContactList } from 'components/ContactList';
+import { Loader } from 'components/Loader';
 import * as S from './Contacts.styled';
 
 const Contacts = () => {
-  const { data, isSuccess } = useFetchContactsQuery();
+  const { data, isSuccess, isFetching } = useFetchContactsQuery();
 
   return (
     <S.Section>
-      <S.Title>Phonebook</S.Title>
+      <S.SectionTitle>Phonebook</S.SectionTitle>
 
       <AddContactForm contacts={data} />
 
-      {/* <S.TitleBox>
-        <S.SecondaryTitle>Contacts</S.SecondaryTitle>
-        {isFetching && <Loader />}
-      </S.TitleBox> */}
-
       <S.ContactsContainer>
+        <S.TextBox>
+          <S.Title>Contacts</S.Title>
+          {isFetching && <Loader width="20" height="20" color="#4FD1C5" />}
+        </S.TextBox>
+
         <Filter />
         {isSuccess && data.length ? (
           <ContactList contacts={data} />

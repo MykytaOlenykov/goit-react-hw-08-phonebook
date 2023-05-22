@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { logIn } from 'redux/auth/operations';
 import { useAuth } from 'hooks';
-import { BtnLoader } from 'components/BtnLoader';
+import { Loader } from 'components/Loader';
 import { errorMessage } from 'constants';
 import * as S from './LoginForm.styled';
 
@@ -55,11 +55,7 @@ export const LoginForm = () => {
       </S.Label>
 
       <S.Button type="submit" disabled={isLoading}>
-        {isLoading ? (
-          <BtnLoader width="15" height="15" color="#fff" />
-        ) : (
-          'Sing in'
-        )}
+        {isLoading ? <Loader width="15" height="15" color="#fff" /> : 'Sing in'}
       </S.Button>
 
       <S.Text>

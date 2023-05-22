@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { register as registerUser } from 'redux/auth/operations';
-import { BtnLoader } from 'components/BtnLoader';
+import { Loader } from 'components/Loader';
 import { useAuth } from 'hooks';
 import { userNameNormalization } from 'utils';
 import { validatePattern, errorMessage } from 'constants';
@@ -71,11 +71,7 @@ export const RegisterForm = () => {
       </S.Label>
 
       <S.Button type="submit" disabled={isLoading}>
-        {isLoading ? (
-          <BtnLoader width="15" height="15" color="#fff" />
-        ) : (
-          'Sing up'
-        )}
+        {isLoading ? <Loader width="15" height="15" color="#fff" /> : 'Sing up'}
       </S.Button>
 
       <S.Text>

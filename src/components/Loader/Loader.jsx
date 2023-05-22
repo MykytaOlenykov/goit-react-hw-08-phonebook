@@ -1,7 +1,7 @@
 import { ThreeDots } from 'react-loader-spinner';
 import PropTypes from 'prop-types';
 
-export const BtnLoader = ({ width, height, color }) => (
+export const Loader = ({ width, height, color }) => (
   <ThreeDots
     height={height}
     width={width}
@@ -14,7 +14,7 @@ export const BtnLoader = ({ width, height, color }) => (
   />
 );
 
-BtnLoader.propTypes = {
+Loader.propTypes = {
   width: PropTypes.string.isRequired,
   height: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,

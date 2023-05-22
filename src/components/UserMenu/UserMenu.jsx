@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logOut } from 'redux/auth/operations';
 import { useAuth } from 'hooks';
-import { BtnLoader } from 'components/BtnLoader';
+import { Loader } from 'components/Loader';
 import * as S from './UserMenu.styled';
 
 export const UserMenu = ({ className }) => {
@@ -19,7 +19,7 @@ export const UserMenu = ({ className }) => {
       <S.Logout type="button" onClick={handleClick} disabled={isLoading}>
         <S.Thumb>
           {isLoading ? (
-            <BtnLoader width="15" height="15" color="#4FD1C5" />
+            <Loader width="15" height="15" color="#4FD1C5" />
           ) : (
             <S.LogoutIcon />
           )}

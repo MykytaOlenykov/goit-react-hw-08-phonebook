@@ -5,7 +5,7 @@ import {
   useUpdateContactMutation,
   useFetchContactsQuery,
 } from 'redux/contacts/slice';
-import { BtnLoader } from 'components/BtnLoader';
+import { Loader } from 'components/Loader';
 import { validatePattern, errorMessage } from 'constants';
 import { userNameNormalization } from 'utils';
 import * as S from './ContactForm.styled';
@@ -100,7 +100,7 @@ export const EditContactForm = ({ id, name: oldName, number: oldNumber }) => {
 
       <S.Button type="submit" disabled={isUpdating}>
         {isUpdating ? (
-          <BtnLoader width="15" height="15" color="#fff" />
+          <Loader width="15" height="15" color="#fff" />
         ) : (
           'Edit contact'
         )}

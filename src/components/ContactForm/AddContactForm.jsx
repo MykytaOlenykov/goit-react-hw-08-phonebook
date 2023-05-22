@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import PropTypes from 'prop-types';
 import { useAddContactMutation } from 'redux/contacts/slice';
-import { BtnLoader } from 'components/BtnLoader';
+import { Loader } from 'components/Loader';
 import { validatePattern, errorMessage } from 'constants';
 import { userNameNormalization } from 'utils';
 import * as S from './ContactForm.styled';
@@ -67,7 +67,7 @@ export const AddContactForm = ({ contacts }) => {
 
       <S.Button type="submit" disabled={isAdding}>
         {isAdding ? (
-          <BtnLoader width="15" height="15" color="#fff" />
+          <Loader width="15" height="15" color="#fff" />
         ) : (
           'Add contact'
         )}
