@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const List = styled.ul`
   height: 350px;
   overflow: auto;
-  padding-right: 24px;
+  padding-right: 12px;
 
   &::-webkit-scrollbar {
     width: 6px;
@@ -14,6 +14,10 @@ export const List = styled.ul`
   &::-webkit-scrollbar-thumb {
     border-radius: 12px;
     background-color: ${({ theme }) => theme.colors.accent};
+  }
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoint}) {
+    padding-right: 24px;
   }
 `;
 

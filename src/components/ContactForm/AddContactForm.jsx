@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import PropTypes from 'prop-types';
@@ -13,32 +12,26 @@ const initialValues = {
   number: '',
 };
 
-export const ContactForm = ({ contacts }) => {
+export const AddContactForm = ({ contacts }) => {
   const { register, handleSubmit, reset } = useForm({
     defaultValues: initialValues,
   });
-  const [addContact, { isLoading: isAdding, error }] = useAddContactMutation();
+  const [addContact, { isLoading: isAdding }] = useAddContactMutation();
 
-  useEffect(() => {
-    if (error) {
-      toast.error('Something went wrong');
-    }
-  }, [error]);
+  const contactValidationByName = newName => {
+    return contacts.some(({ name }) => name === newName);
+  };
 
   const onSubmit = async ({ name, number }) => {
     const normalizedName = userNameNormalization(name);
 
     if (contactValidationByName(normalizedName)) {
-      toast.error(`${name} is already in contacts.`);
+      toast.error(`${normalizedName} is already in contacts.`);
       return;
     }
 
     await addContact({ name: normalizedName, number });
     reset();
-  };
-
-  const contactValidationByName = newName => {
-    return contacts.some(({ name }) => name === newName);
   };
 
   return (
@@ -83,7 +76,7 @@ export const ContactForm = ({ contacts }) => {
   );
 };
 
-ContactForm.propTypes = {
+AddContactForm.propTypes = {
   contacts: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,

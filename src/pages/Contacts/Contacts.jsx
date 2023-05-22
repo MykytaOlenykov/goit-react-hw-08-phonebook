@@ -1,18 +1,17 @@
 import { useFetchContactsQuery } from 'redux/contacts/slice';
-import { ContactForm } from 'components/ContactForm';
+import { AddContactForm } from 'components/ContactForm';
 import { Filter } from 'components/Filter';
 import { ContactList } from 'components/ContactList';
 import * as S from './Contacts.styled';
 
 const Contacts = () => {
   const { data, isSuccess } = useFetchContactsQuery();
-  console.log(data);
 
   return (
     <S.Section>
       <S.Title>Phonebook</S.Title>
 
-      <ContactForm contacts={data} />
+      <AddContactForm contacts={data} />
 
       {/* <S.TitleBox>
         <S.SecondaryTitle>Contacts</S.SecondaryTitle>

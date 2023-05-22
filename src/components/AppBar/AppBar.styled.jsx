@@ -44,12 +44,14 @@ export const Button = styled.button`
   justify-content: center;
   width: 30px;
   height: 30px;
+  padding: 0;
   background-color: ${({ theme }) => theme.colors.primary};
   box-shadow: 0px 3.5px 5.5px rgba(0, 0, 0, 0.02);
   border: 1px solid ${({ theme }) => theme.colors.primary};
   border-radius: 12px;
   transition: border-color
     ${({ theme }) => `${theme.duration} ${theme.timingFunction}`};
+  cursor: pointer;
 
   &:hover {
     border-color: ${({ theme }) => theme.colors.accent};

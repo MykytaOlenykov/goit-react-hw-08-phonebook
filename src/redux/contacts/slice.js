@@ -5,7 +5,7 @@ const axiosBaseQuery =
   ({ baseUrl } = { baseUrl: '' }) =>
   async ({ url, method, data, params }) => {
     try {
-      const result = await axios({ url: url, method, data, params });
+      const result = await axios({ url: baseUrl + url, method, data, params });
       return { data: result.data };
     } catch (axiosError) {
       let err = axiosError;
@@ -43,9 +43,10 @@ export const contactsApi = createApi({
       invalidatesTags: ['Contacts'],
     }),
     updateContact: builder.mutation({
-      query: id => ({
+      query: ({ id, data }) => ({
         url: `contacts/${id}`,
         method: 'patch',
+        data,
       }),
       invalidatesTags: ['Contacts'],
     }),

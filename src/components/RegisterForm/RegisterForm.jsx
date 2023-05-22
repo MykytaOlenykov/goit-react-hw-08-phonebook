@@ -1,6 +1,5 @@
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
 import { register as registerUser } from 'redux/auth/operations';
 import { BtnLoader } from 'components/BtnLoader';
 import { useAuth } from 'hooks';
@@ -23,11 +22,6 @@ export const RegisterForm = () => {
 
   const onSubmit = ({ name, email, password }) => {
     const normalizedName = userNameNormalization(name);
-
-    if (!normalizedName) {
-      toast.error('Enter valid name.');
-      return;
-    }
 
     dispatch(registerUser({ name: normalizedName, email, password }));
     reset();

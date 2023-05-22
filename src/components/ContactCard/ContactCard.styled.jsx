@@ -5,9 +5,16 @@ import styled from 'styled-components';
 export const ContactCard = styled.div`
   position: relative;
   width: 100%;
-  padding: 26px;
+  padding-top: 28px;
+  padding-bottom: 28px;
+  padding-left: 20px;
+  padding-right: 20px;
   background-color: ${({ theme }) => theme.colors.primaryBg};
   border-radius: 12px;
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoint}) {
+    padding: 26px;
+  }
 `;
 
 export const Name = styled.p`
@@ -20,7 +27,8 @@ export const Name = styled.p`
 
 export const Number = styled.p`
   display: flex;
-  gap: 8px;
+  gap: 4px;
+  flex-wrap: wrap;
   font-weight: 400;
   font-size: 12px;
   line-height: 1.5;
@@ -30,18 +38,25 @@ export const Number = styled.p`
     font-weight: 700;
     color: ${({ theme }) => theme.colors.secondary};
   }
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoint}) {
+    gap: 8px;
+  }
 `;
 
 export const List = styled.ul`
   position: absolute;
-  top: 50%;
-  right: 12px;
+  top: 8px;
+  right: 8px;
 
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  gap: 2px;
 
-  transform: translateY(-50%);
+  @media screen and (min-width: ${({ theme }) => theme.breakpoint}) {
+    top: 12px;
+    right: 12px;
+    gap: 8px;
+  }
 `;
 
 export const Button = styled.button`
@@ -53,6 +68,7 @@ export const Button = styled.button`
   font-weight: 700;
   font-size: 10px;
   line-height: 1.5;
+  text-transform: uppercase;
   padding: 0;
   border: none;
   background-color: transparent;

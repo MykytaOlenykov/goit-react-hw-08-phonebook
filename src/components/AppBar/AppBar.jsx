@@ -26,7 +26,7 @@ export const AppBar = () => {
     };
 
     window
-      .matchMedia('(min-width: 1024px)')
+      .matchMedia('(min-width: 680px)')
       .addEventListener('change', handleHideMenu);
   }, []);
 

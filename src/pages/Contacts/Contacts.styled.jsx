@@ -7,8 +7,8 @@ export const Section = styled.section`
   gap: 48px;
   flex-wrap: wrap;
   align-items: center;
-  padding-top: 80px;
-  padding-bottom: 80px;
+  padding-top: 64px;
+  padding-bottom: 64px;
   padding-left: 24px;
   padding-right: 24px;
 
