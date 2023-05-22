@@ -1,8 +1,9 @@
-import { createSlice, isPending, isRejected } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { register, logIn, logOut, refreshUser } from './operations';
 
 const handlePending = state => {
   state.isLoading = true;
+  state.error = null;
 };
 
 const handleRejected = (state, action) => {
@@ -25,35 +26,40 @@ export const authSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(register.fulfilled, (state, action) => {
-        state.error = null;
         state.user = action.payload.user;
         state.token = action.payload.token;
         state.isLoggedIn = true;
         state.isLoading = false;
       })
       .addCase(logIn.fulfilled, (state, action) => {
-        state.error = null;
         state.user = action.payload.user;
         state.token = action.payload.token;
         state.isLoggedIn = true;
         state.isLoading = false;
       })
       .addCase(logOut.fulfilled, state => {
-        state.error = null;
         state.user = { name: null, email: null };
         state.token = null;
         state.isLoggedIn = false;
         state.isLoading = false;
       })
       .addCase(refreshUser.fulfilled, (state, action) => {
-        state.error = null;
-        state.user = action.payload.user;
+        state.user = action.payload;
         state.isLoggedIn = true;
         state.isRefreshing = false;
-        state.isLoading = false;
       })
-      .addMatcher(isPending, handlePending)
-      .addMatcher(isRejected, handleRejected);
+      .addCase(register.pending, handlePending)
+      .addCase(logIn.pending, handlePending)
+      .addCase(logOut.pending, handlePending)
+      .addCase(refreshUser.pending, state => {
+        state.isRefreshing = true;
+      })
+      .addCase(register.rejected, handleRejected)
+      .addCase(logIn.rejected, handleRejected)
+      .addCase(logOut.rejected, handleRejected)
+      .addCase(refreshUser.rejected, state => {
+        state.isRefreshing = false;
+      });
   },
 });
 

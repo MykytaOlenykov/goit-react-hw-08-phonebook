@@ -66,9 +66,7 @@ export const ErrorText = styled.p`
 
 export const Button = styled.button`
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 4px;
   margin-bottom: 22px;
   padding: 14px;
   width: 100%;

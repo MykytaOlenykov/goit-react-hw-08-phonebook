@@ -2,6 +2,8 @@ import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { register as registerUser } from 'redux/auth/operations';
+import { FormLoader } from 'components/Loaders';
+import { useAuth } from 'hooks';
 import { userNameNormalization } from 'utils';
 import { validatePattern, errorMessage } from 'constants';
 import * as S from './RegisterForm.styled';
@@ -17,6 +19,7 @@ export const RegisterForm = () => {
     defaultValues: initialValues,
   });
   const dispatch = useDispatch();
+  const { isLoading } = useAuth();
 
   const onSubmit = ({ name, email, password }) => {
     const normalizedName = userNameNormalization(name);
@@ -73,7 +76,9 @@ export const RegisterForm = () => {
         />
       </S.Label>
 
-      <S.Button type="submit">Sing up</S.Button>
+      <S.Button type="submit" disabled={isLoading}>
+        {isLoading ? <FormLoader /> : 'Sing up'}
+      </S.Button>
 
       <S.Text>
         Already have an account?

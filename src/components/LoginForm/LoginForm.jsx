@@ -1,6 +1,8 @@
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { logIn } from 'redux/auth/operations';
+import { useAuth } from 'hooks';
+import { FormLoader } from 'components/Loaders';
 import { errorMessage } from 'constants';
 import * as S from './LoginForm.styled';
 
@@ -14,6 +16,7 @@ export const LoginForm = () => {
     defaultValues: initialValues,
   });
   const dispatch = useDispatch();
+  const { isLoading } = useAuth();
 
   const onSubmit = data => {
     dispatch(logIn(data));
@@ -51,7 +54,9 @@ export const LoginForm = () => {
         />
       </S.Label>
 
-      <S.Button type="submit">Sing up</S.Button>
+      <S.Button type="submit" disabled={isLoading}>
+        {isLoading ? <FormLoader /> : 'Sing in'}
+      </S.Button>
 
       <S.Text>
         Don't have an account?

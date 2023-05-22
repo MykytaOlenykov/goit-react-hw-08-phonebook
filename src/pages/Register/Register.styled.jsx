@@ -9,15 +9,16 @@ export const Section = styled.section`
     content: '';
     position: absolute;
     top: 24px;
-    left: 0;
+    left: 50%;
     z-index: -1;
     display: block;
-    width: 100%;
+    width: calc(100% - 48px);
     height: 400px;
     background-image: url(${backgroundImg});
     background-size: cover;
     background-position: center;
     border-radius: 15px;
+    transform: translateX(-50%);
 
     @media (min-device-pixel-ratio: 2),
       (min-resolution: 192dpi),

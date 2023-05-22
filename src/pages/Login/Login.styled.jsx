@@ -9,7 +9,7 @@ export const Section = styled.section`
     content: '';
     position: absolute;
     top: 30px;
-    right: 0;
+    right: 24px;
     z-index: -1;
     display: block;
     width: 260px;
