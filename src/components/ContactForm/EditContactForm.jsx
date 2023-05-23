@@ -95,6 +95,7 @@ export const EditContactForm = ({ id, name: oldName, number: oldNumber }) => {
           pattern={validatePattern.number}
           title={errorMessage.number}
           placeholder="New phone number"
+          maxLength="20"
         />
       </S.Label>
 

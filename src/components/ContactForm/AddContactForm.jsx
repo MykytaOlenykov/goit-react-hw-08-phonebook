@@ -61,6 +61,7 @@ export const AddContactForm = ({ contacts }) => {
           pattern={validatePattern.number}
           title={errorMessage.number}
           placeholder="Phone number"
+          maxLength="20"
           required
         />
       </S.Label>
