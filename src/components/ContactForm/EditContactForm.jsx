@@ -7,7 +7,7 @@ import {
 } from 'redux/contacts/slice';
 import { Loader } from 'components/Loader';
 import { validatePattern, errorMessage } from 'constants';
-import { userNameNormalization } from 'utils';
+import { getNormalizedName } from 'utils';
 import * as S from './ContactForm.styled';
 
 const initialValues = {
@@ -46,7 +46,7 @@ export const EditContactForm = ({ id, name: oldName, number: oldNumber }) => {
   };
 
   const onSubmit = async ({ name, number }) => {
-    const normalizedName = userNameNormalization(name);
+    const normalizedName = getNormalizedName(name);
 
     let data = {};
 

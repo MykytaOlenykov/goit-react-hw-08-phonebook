@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { register as registerUser } from 'redux/auth/operations';
 import { Loader } from 'components/Loader';
 import { useAuth } from 'hooks';
-import { userNameNormalization } from 'utils';
+import { getNormalizedName } from 'utils';
 import { validatePattern, errorMessage } from 'constants';
 import * as S from './RegisterForm.styled';
 
@@ -21,7 +21,7 @@ export const RegisterForm = () => {
   const { isLoading } = useAuth();
 
   const onSubmit = ({ name, email, password }) => {
-    const normalizedName = userNameNormalization(name);
+    const normalizedName = getNormalizedName(name);
 
     dispatch(registerUser({ name: normalizedName, email, password }));
     reset();

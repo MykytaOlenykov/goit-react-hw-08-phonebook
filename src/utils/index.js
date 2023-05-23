@@ -1,1 +1,1 @@
-export * from './userNameNotmalization';
+export * from './getNormalizedName';

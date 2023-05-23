@@ -1,5 +1,5 @@
-export const userNameNormalization = userName => {
-  return userName
+export const getNormalizedName = name => {
+  return name
     .split(' ')
     .reduce((acc, word) => {
       const normalizedWord = word.trim();
