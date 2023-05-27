@@ -20,9 +20,7 @@ export const ContactCard = styled.div`
 export const Name = styled.p`
   margin-bottom: 7.5px;
   max-width: 180px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  word-wrap: break-word;
   font-weight: 700;
   font-size: 14px;
   line-height: 1.4;
@@ -45,12 +43,17 @@ export const Number = styled.p`
   & > span {
     font-weight: 700;
     color: ${({ theme }) => theme.colors.secondary};
+    padding-bottom: 4px;
 
-    @media screen and (max-width: 350px) {
-      max-width: 140px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    overflow-x: auto;
+    &::-webkit-scrollbar {
+      height: 4px;
+      background-color: ${({ theme }) => theme.colors.secondaryBg};
+      border-radius: 12px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 12px;
+      background-color: ${({ theme }) => theme.colors.accent};
     }
   }
 

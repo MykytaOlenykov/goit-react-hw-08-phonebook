@@ -38,7 +38,7 @@ export const Modal = ({ onCloseModal, ...otherProps }) => {
 
 Modal.propTypes = {
   onCloseModal: PropTypes.func,
-  otherProps: PropTypes.shape({
+  otherProps: PropTypes.exact({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     number: PropTypes.string.isRequired,

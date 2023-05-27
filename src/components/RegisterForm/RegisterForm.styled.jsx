@@ -122,3 +122,10 @@ export const SignInLink = styled(Link)`
     opacity: 1;
   }
 `;
+
+export const ErrorText = styled.span`
+  padding: 2px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: ${({ theme }) => theme.colors.errorText};
+`;

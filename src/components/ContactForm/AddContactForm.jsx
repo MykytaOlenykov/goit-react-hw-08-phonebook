@@ -1,5 +1,8 @@
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import PropTypes from 'prop-types';
 import { useAddContactMutation } from 'redux/contacts/slice';
 import { Loader } from 'components/Loader';
@@ -7,20 +10,42 @@ import { validatePattern, errorMessage } from 'constants';
 import { getNormalizedName } from 'utils';
 import * as S from './ContactForm.styled';
 
+const schema = yup.object().shape({
+  name: yup
+    .string()
+    .matches(validatePattern.name, errorMessage.name)
+    .required(),
+  number: yup
+    .string()
+    .matches(validatePattern.number, errorMessage.number)
+    .required(),
+});
+
 const initialValues = {
   name: '',
   number: '',
 };
 
 export const AddContactForm = ({ contacts }) => {
-  const { register, handleSubmit, reset } = useForm({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
     defaultValues: initialValues,
+    resolver: yupResolver(schema),
   });
-  const [addContact, { isLoading: isAdding }] = useAddContactMutation();
+  const [addContact, { isLoading: isAdding, isError }] =
+    useAddContactMutation();
 
-  const contactValidationByName = newName => {
-    return contacts.some(({ name }) => name === newName);
-  };
+  useEffect(() => {
+    if (isError) {
+      toast.error(
+        'Something went wrong while adding a contact, please try again later.'
+      );
+    }
+  }, [isError]);
 
   const onSubmit = async ({ name, number }) => {
     const normalizedName = getNormalizedName(name);
@@ -34,6 +59,10 @@ export const AddContactForm = ({ contacts }) => {
     reset();
   };
 
+  const contactValidationByName = newName => {
+    return contacts.some(({ name }) => name === newName);
+  };
+
   return (
     <S.ContactForm
       autoComplete="off"
@@ -43,14 +72,8 @@ export const AddContactForm = ({ contacts }) => {
     >
       <S.Label>
         <S.TextLabel>Name</S.TextLabel>
-        <S.Input
-          {...register('name')}
-          type="text"
-          pattern={validatePattern.name}
-          title={errorMessage.name}
-          placeholder="Full name"
-          required
-        />
+        <S.Input {...register('name')} type="text" placeholder="Full name" />
+        {errors.name && <S.ErrorText>{errors.name?.message}</S.ErrorText>}
       </S.Label>
 
       <S.Label>
@@ -58,12 +81,9 @@ export const AddContactForm = ({ contacts }) => {
         <S.Input
           {...register('number')}
           type="tel"
-          pattern={validatePattern.number}
-          title={errorMessage.number}
           placeholder="Phone number"
-          maxLength="20"
-          required
         />
+        {errors.number && <S.ErrorText>{errors.number?.message}</S.ErrorText>}
       </S.Label>
 
       <S.Button type="submit" disabled={isAdding}>
@@ -79,7 +99,7 @@ export const AddContactForm = ({ contacts }) => {
 
 AddContactForm.propTypes = {
   contacts: PropTypes.arrayOf(
-    PropTypes.shape({
+    PropTypes.exact({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       number: PropTypes.string.isRequired,

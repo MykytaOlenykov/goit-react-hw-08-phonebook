@@ -9,6 +9,7 @@ const theme = Object.freeze({
     accent: '#4FD1C5',
     inputBorder: '#e2e8f0',
     iconBtn: '#E53E3E',
+    errorText: '#E53E3E',
   },
   duration: '250ms',
   timingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',

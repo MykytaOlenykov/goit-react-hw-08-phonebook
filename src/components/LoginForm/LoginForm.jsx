@@ -1,10 +1,23 @@
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { clearError } from 'redux/auth/slice';
 import { logIn } from 'redux/auth/operations';
 import { useAuth } from 'hooks';
 import { Loader } from 'components/Loader';
-import { errorMessage } from 'constants';
+import { validatePattern, errorMessage } from 'constants';
 import * as S from './LoginForm.styled';
+
+const schema = yup.object().shape({
+  email: yup
+    .string()
+    .matches(validatePattern.email, errorMessage.email)
+    .required(),
+  password: yup.string().required(),
+});
 
 const initialValues = {
   email: '',
@@ -12,11 +25,24 @@ const initialValues = {
 };
 
 export const LoginForm = () => {
-  const { register, handleSubmit, reset } = useForm({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
     defaultValues: initialValues,
+    resolver: yupResolver(schema),
   });
   const dispatch = useDispatch();
-  const { isLoading } = useAuth();
+  const { isLoading, error } = useAuth();
+
+  useEffect(() => {
+    if (error) {
+      toast.error('Something went wrong. Сheck your password and email');
+      dispatch(clearError());
+    }
+  }, [error, dispatch]);
 
   const onSubmit = data => {
     dispatch(logIn(data));
@@ -26,6 +52,7 @@ export const LoginForm = () => {
   return (
     <S.LoginForm
       autoComplete="off"
+      noValidate
       onSubmit={handleSubmit(data => {
         onSubmit(data);
       })}
@@ -37,9 +64,9 @@ export const LoginForm = () => {
         <S.Input
           {...register('email')}
           type="email"
-          required
           placeholder="Your email address"
         />
+        {errors.email && <S.ErrorText>{errors.email?.message}</S.ErrorText>}
       </S.Label>
 
       <S.Label>
@@ -47,11 +74,11 @@ export const LoginForm = () => {
         <S.Input
           {...register('password')}
           type="password"
-          minlength="8"
-          title={errorMessage.password}
-          required
           placeholder="Your password"
         />
+        {errors.password && (
+          <S.ErrorText>{errors.password?.message}</S.ErrorText>
+        )}
       </S.Label>
 
       <S.Button type="submit" disabled={isLoading}>

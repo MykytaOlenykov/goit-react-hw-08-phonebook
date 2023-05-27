@@ -1,11 +1,31 @@
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { clearError } from 'redux/auth/slice';
 import { register as registerUser } from 'redux/auth/operations';
 import { Loader } from 'components/Loader';
 import { useAuth } from 'hooks';
 import { getNormalizedName } from 'utils';
 import { validatePattern, errorMessage } from 'constants';
 import * as S from './RegisterForm.styled';
+
+const schema = yup.object().shape({
+  name: yup
+    .string()
+    .matches(validatePattern.name, errorMessage.name)
+    .required(),
+  email: yup
+    .string()
+    .matches(validatePattern.email, errorMessage.email)
+    .required(),
+  password: yup
+    .string()
+    .matches(validatePattern.password, errorMessage.password)
+    .required(),
+});
 
 const initialValues = {
   name: '',
@@ -14,11 +34,26 @@ const initialValues = {
 };
 
 export const RegisterForm = () => {
-  const { register, handleSubmit, reset } = useForm({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
     defaultValues: initialValues,
+    resolver: yupResolver(schema),
   });
   const dispatch = useDispatch();
-  const { isLoading } = useAuth();
+  const { isLoading, error } = useAuth();
+
+  useEffect(() => {
+    if (error) {
+      toast.error(
+        'Something went wrong. There may already be a user with this email address.'
+      );
+      dispatch(clearError());
+    }
+  }, [error, dispatch]);
 
   const onSubmit = ({ name, email, password }) => {
     const normalizedName = getNormalizedName(name);
@@ -30,6 +65,7 @@ export const RegisterForm = () => {
   return (
     <S.RegisterForm
       autoComplete="off"
+      noValidate
       onSubmit={handleSubmit(data => {
         onSubmit(data);
       })}
@@ -41,11 +77,9 @@ export const RegisterForm = () => {
         <S.Input
           {...register('name')}
           type="text"
-          pattern={validatePattern.name}
-          title={errorMessage.name}
-          required
           placeholder="Your full name"
         />
+        {errors.name && <S.ErrorText>{errors.name?.message}</S.ErrorText>}
       </S.Label>
 
       <S.Label>
@@ -53,9 +87,9 @@ export const RegisterForm = () => {
         <S.Input
           {...register('email')}
           type="email"
-          required
           placeholder="Your email address"
         />
+        {errors.email && <S.ErrorText>{errors.email?.message}</S.ErrorText>}
       </S.Label>
 
       <S.Label>
@@ -63,11 +97,11 @@ export const RegisterForm = () => {
         <S.Input
           {...register('password')}
           type="password"
-          minlength="8"
-          title={errorMessage.password}
-          required
           placeholder="Your password"
         />
+        {errors.password && (
+          <S.ErrorText>{errors.password?.message}</S.ErrorText>
+        )}
       </S.Label>
 
       <S.Button type="submit" disabled={isLoading}>

@@ -45,6 +45,8 @@ export const TextLabel = styled.span`
   margin-bottom: 5.5px;
   font-size: 14px;
   line-height: 1.4;
+
+  word-wrap: break-word;
 `;
 
 export const Button = styled.button`
@@ -73,4 +75,11 @@ export const Button = styled.button`
   &:disabled {
     opacity: 0.8;
   }
+`;
+
+export const ErrorText = styled.span`
+  padding: 2px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: ${({ theme }) => theme.colors.errorText};
 `;

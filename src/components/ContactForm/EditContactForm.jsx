@@ -1,5 +1,8 @@
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import PropTypes from 'prop-types';
 import {
   useUpdateContactMutation,
@@ -10,40 +13,43 @@ import { validatePattern, errorMessage } from 'constants';
 import { getNormalizedName } from 'utils';
 import * as S from './ContactForm.styled';
 
+const schema = yup.object().shape({
+  name: yup
+    .string()
+    .matches(validatePattern.name, errorMessage.name)
+    .required(),
+  number: yup
+    .string()
+    .matches(validatePattern.number, errorMessage.number)
+    .required(),
+});
+
 const initialValues = {
   name: '',
   number: '',
 };
 
 export const EditContactForm = ({ id, name: oldName, number: oldNumber }) => {
-  const { register, handleSubmit, reset } = useForm({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
     defaultValues: initialValues,
+    resolver: yupResolver(schema),
   });
-  const [updateContact, { isLoading: isUpdating }] = useUpdateContactMutation();
+  const [updateContact, { isLoading: isUpdating, isError }] =
+    useUpdateContactMutation();
   const { data: contacts } = useFetchContactsQuery();
 
-  const contactValidationName = newName => {
-    if (newName === oldName) {
-      toast.error('You entered the old name.');
-      return true;
+  useEffect(() => {
+    if (isError) {
+      toast.error(
+        'Something went wrong while updating the contact, please try again later.'
+      );
     }
-
-    if (contacts.some(({ name }) => name === newName)) {
-      toast.error(`${newName} is already in contacts.`);
-      return true;
-    }
-
-    return false;
-  };
-
-  const contactValidationNumber = newNumber => {
-    if (newNumber === oldNumber) {
-      toast.error('You entered the old phone number.');
-      return true;
-    }
-
-    return false;
-  };
+  }, [isError]);
 
   const onSubmit = async ({ name, number }) => {
     const normalizedName = getNormalizedName(name);
@@ -69,6 +75,29 @@ export const EditContactForm = ({ id, name: oldName, number: oldNumber }) => {
     reset();
   };
 
+  const contactValidationName = newName => {
+    if (newName === oldName) {
+      toast.error('You entered the old name.');
+      return true;
+    }
+
+    if (contacts.some(({ name }) => name === newName)) {
+      toast.error(`${newName} is already in contacts.`);
+      return true;
+    }
+
+    return false;
+  };
+
+  const contactValidationNumber = newNumber => {
+    if (newNumber === oldNumber) {
+      toast.error('You entered the old phone number.');
+      return true;
+    }
+
+    return false;
+  };
+
   return (
     <S.ContactForm
       autoComplete="off"
@@ -78,13 +107,8 @@ export const EditContactForm = ({ id, name: oldName, number: oldNumber }) => {
     >
       <S.Label>
         <S.TextLabel>Current name: {oldName}</S.TextLabel>
-        <S.Input
-          {...register('name')}
-          type="text"
-          pattern={validatePattern.name}
-          title={errorMessage.name}
-          placeholder="New name"
-        />
+        <S.Input {...register('name')} type="text" placeholder="New name" />
+        {errors.name && <S.ErrorText>{errors.name?.message}</S.ErrorText>}
       </S.Label>
 
       <S.Label>
@@ -92,11 +116,9 @@ export const EditContactForm = ({ id, name: oldName, number: oldNumber }) => {
         <S.Input
           {...register('number')}
           type="tel"
-          pattern={validatePattern.number}
-          title={errorMessage.number}
           placeholder="New phone number"
-          maxLength="20"
         />
+        {errors.number && <S.ErrorText>{errors.number?.message}</S.ErrorText>}
       </S.Label>
 
       <S.Button type="submit" disabled={isUpdating}>

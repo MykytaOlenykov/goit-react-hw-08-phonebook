@@ -1,12 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { toast } from 'react-hot-toast';
 import PropTypes from 'prop-types';
 import { useDeleteContactMutation } from 'redux/contacts/slice';
 import { Modal } from 'components/Modal';
 import * as S from './ContactCard.styled';
 
 export const ContactCard = ({ contactId, name, number }) => {
-  const [deleteContact, { isLoading: isDeleting }] = useDeleteContactMutation();
+  const [deleteContact, { isLoading: isDeleting, isError }] =
+    useDeleteContactMutation();
   const [isOpenModal, setIsOpenModal] = useState(false);
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(
+        'Something went wrong while deleting a contact, please try again later.'
+      );
+    }
+  }, [isError]);
 
   const handleDeleteContact = async contactId => {
     await deleteContact(contactId);

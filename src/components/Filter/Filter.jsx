@@ -7,7 +7,7 @@ export const Filter = () => {
   const filter = useSelector(selectFilter);
   const dispatch = useDispatch();
 
-  const handleChange = e => {
+  const handleChangeFilter = e => {
     dispatch(changeFilter(e.target.value.toLowerCase().trim()));
   };
 
@@ -16,7 +16,7 @@ export const Filter = () => {
       <S.Text>Find contacts by name</S.Text>
       <S.Label aria-label="Contacts filter by name">
         <S.Input
-          onChange={handleChange}
+          onChange={handleChangeFilter}
           value={filter}
           name="filter"
           type="text"

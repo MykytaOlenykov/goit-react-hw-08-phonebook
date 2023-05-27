@@ -1,5 +1,8 @@
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-hot-toast';
 import PropTypes from 'prop-types';
+import { clearError } from 'redux/auth/slice';
 import { logOut } from 'redux/auth/operations';
 import { useAuth } from 'hooks';
 import { Loader } from 'components/Loader';
@@ -7,7 +10,14 @@ import * as S from './UserMenu.styled';
 
 export const UserMenu = ({ className }) => {
   const dispatch = useDispatch();
-  const { user, isLoading } = useAuth();
+  const { user, isLoading, error } = useAuth();
+
+  useEffect(() => {
+    if (error) {
+      toast.error('Something went wrong, please try again later.');
+      dispatch(clearError());
+    }
+  }, [error, dispatch]);
 
   const handleClick = () => {
     dispatch(logOut());

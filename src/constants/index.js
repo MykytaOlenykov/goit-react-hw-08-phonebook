@@ -1,3 +1,3 @@
 export * from './theme';
-export * from './validatePatternForm';
-export * from './errorMessageForm';
+export * from './validatePattern';
+export * from './errorMessage';
