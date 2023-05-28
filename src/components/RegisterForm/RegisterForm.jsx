@@ -15,14 +15,19 @@ import * as S from './RegisterForm.styled';
 const schema = yup.object().shape({
   name: yup
     .string()
+    .trim()
+    .min(2)
+    .max(255)
     .matches(validatePattern.name, errorMessage.name)
     .required(),
   email: yup
     .string()
+    .max(255)
     .matches(validatePattern.email, errorMessage.email)
     .required(),
   password: yup
     .string()
+    .max(255)
     .matches(validatePattern.password, errorMessage.password)
     .required(),
 });

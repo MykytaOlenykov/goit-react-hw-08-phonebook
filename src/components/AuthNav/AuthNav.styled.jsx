@@ -28,7 +28,7 @@ export const SignInIcon = styled(IoKeySharp)`
   fill: ${({ theme }) => theme.colors.accent};
 `;
 
-export const Thumb = styled.div`
+export const Thumb = styled.span`
   flex-shrink: 0;
   display: flex;
   align-items: center;

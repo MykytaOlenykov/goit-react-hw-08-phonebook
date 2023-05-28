@@ -98,5 +98,6 @@ export const Text = styled.p`
   font-weight: 700;
   font-size: 16px;
   line-height: 1.5;
+  text-align: center;
   color: ${({ theme }) => theme.colors.secondaryText};
 `;

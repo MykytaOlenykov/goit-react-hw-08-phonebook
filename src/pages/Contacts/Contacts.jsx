@@ -24,7 +24,9 @@ const Contacts = () => {
         {isSuccess && data.length ? (
           <ContactList contacts={data} />
         ) : (
-          <S.Text>This page is empty, add some contacts.</S.Text>
+          <S.Text>
+            You don't have any contacts. Add contacts for them to appear here.
+          </S.Text>
         )}
       </S.ContactsContainer>
     </S.Section>

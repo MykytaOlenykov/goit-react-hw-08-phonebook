@@ -6,14 +6,17 @@ export const ContactCard = styled.div`
   position: relative;
   width: 100%;
   padding-top: 28px;
-  padding-bottom: 28px;
+  padding-bottom: 24px;
   padding-left: 20px;
   padding-right: 20px;
   background-color: ${({ theme }) => theme.colors.primaryBg};
   border-radius: 12px;
 
   @media screen and (min-width: ${({ theme }) => theme.breakpoint}) {
-    padding: 26px;
+    padding-top: 20px;
+    padding-bottom: 16px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 `;
 

@@ -11,7 +11,7 @@ const Home = () => {
     <S.Section>
       <S.SectionTitle>Phonebook home page</S.SectionTitle>
       {isLoggedIn ? (
-        <S.Title>Welcome {name}!</S.Title>
+        <S.Title>Welcome, {name}!</S.Title>
       ) : (
         <S.Title>Welcome!</S.Title>
       )}
