@@ -40,7 +40,9 @@ export const LoginForm = () => {
 
   useEffect(() => {
     if (error) {
-      toast.error('Something went wrong. Сheck your password and email');
+      toast.error(
+        'Something went wrong. Your password or email may have been entered incorrectly.'
+      );
       dispatch(clearError());
     }
   }, [error, dispatch]);
