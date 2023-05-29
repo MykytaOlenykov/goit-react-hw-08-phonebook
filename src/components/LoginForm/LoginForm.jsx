@@ -14,9 +14,10 @@ import * as S from './LoginForm.styled';
 const schema = yup.object().shape({
   email: yup
     .string()
+    .max(255)
     .matches(validatePattern.email, errorMessage.email)
     .required(),
-  password: yup.string().required(),
+  password: yup.string().min(8).max(255).required(),
 });
 
 const initialValues = {

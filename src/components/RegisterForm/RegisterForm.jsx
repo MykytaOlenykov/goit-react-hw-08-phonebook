@@ -8,7 +8,6 @@ import { clearError } from 'redux/auth/slice';
 import { register as registerUser } from 'redux/auth/operations';
 import { Loader } from 'components/Loader';
 import { useAuth } from 'hooks';
-import { getNormalizedName } from 'utils';
 import { validatePattern, errorMessage } from 'constants';
 import * as S from './RegisterForm.styled';
 
@@ -61,7 +60,7 @@ export const RegisterForm = () => {
   }, [error, dispatch]);
 
   const onSubmit = ({ name, email, password }) => {
-    const normalizedName = getNormalizedName(name);
+    const normalizedName = name.trim();
 
     dispatch(registerUser({ name: normalizedName, email, password }));
     reset();

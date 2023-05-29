@@ -10,22 +10,18 @@ import {
 } from 'redux/contacts/slice';
 import { Loader } from 'components/Loader';
 import { validatePattern, errorMessage } from 'constants';
-import { getNormalizedName } from 'utils';
 import * as S from './ContactForm.styled';
 
 const schema = yup.object().shape({
   name: yup
     .string()
     .trim()
-    .min(2)
     .max(255)
-    .matches(validatePattern.name, errorMessage.name)
-    .required(),
+    .matches(validatePattern.name, errorMessage.name),
   number: yup
     .string()
     .max(20)
-    .matches(validatePattern.number, errorMessage.number)
-    .required(),
+    .matches(validatePattern.number, errorMessage.number),
 });
 
 const initialValues = {
@@ -56,7 +52,7 @@ export const EditContactForm = ({ id, name: oldName, number: oldNumber }) => {
   }, [isError]);
 
   const onSubmit = async ({ name, number }) => {
-    const normalizedName = getNormalizedName(name);
+    const normalizedName = name.trim();
 
     let data = {};
 

@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import { useAddContactMutation } from 'redux/contacts/slice';
 import { Loader } from 'components/Loader';
 import { validatePattern, errorMessage } from 'constants';
-import { getNormalizedName } from 'utils';
 import * as S from './ContactForm.styled';
 
 const schema = yup.object().shape({
@@ -52,7 +51,7 @@ export const AddContactForm = ({ contacts }) => {
   }, [isError]);
 
   const onSubmit = async ({ name, number }) => {
-    const normalizedName = getNormalizedName(name);
+    const normalizedName = name.trim();
 
     if (contactValidationByName(normalizedName)) {
       toast.error(`${normalizedName} is already in contacts.`);

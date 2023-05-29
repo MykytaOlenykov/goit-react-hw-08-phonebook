@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { selectFilter } from 'redux/filter/selectors';
@@ -8,9 +7,11 @@ import * as S from './ContactList.styled';
 export const ContactList = ({ contacts }) => {
   const filter = useSelector(selectFilter);
 
-  const visibleContacts = useMemo(() => {
+  const getVisibleContacts = () => {
     return contacts.filter(({ name }) => name.toLowerCase().includes(filter));
-  }, [contacts, filter]);
+  };
+
+  const visibleContacts = getVisibleContacts();
 
   return (
     <S.List>
