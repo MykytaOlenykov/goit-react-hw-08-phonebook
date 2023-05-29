@@ -48,16 +48,16 @@ export const RegisterForm = () => {
     resolver: yupResolver(schema),
   });
   const dispatch = useDispatch();
-  const { isLoading, error } = useAuth();
+  const { isLoading, error: authError } = useAuth();
 
   useEffect(() => {
-    if (error) {
+    if (authError) {
       toast.error(
         'Something went wrong. There may already be a user with this email address.'
       );
       dispatch(clearError());
     }
-  }, [error, dispatch]);
+  }, [authError, dispatch]);
 
   const onSubmit = ({ name, email, password }) => {
     const normalizedName = name.trim();

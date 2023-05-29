@@ -36,16 +36,16 @@ export const LoginForm = () => {
     resolver: yupResolver(schema),
   });
   const dispatch = useDispatch();
-  const { isLoading, error } = useAuth();
+  const { isLoading, error: authError } = useAuth();
 
   useEffect(() => {
-    if (error) {
+    if (authError) {
       toast.error(
         'Something went wrong. Your password or email may have been entered incorrectly.'
       );
       dispatch(clearError());
     }
-  }, [error, dispatch]);
+  }, [authError, dispatch]);
 
   const onSubmit = data => {
     dispatch(logIn(data));
