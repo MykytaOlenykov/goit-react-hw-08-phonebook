@@ -41,9 +41,9 @@ export const logIn = createAsyncThunk(
 
 export const logOut = createAsyncThunk(
   'auth/logOut',
-  async (credentials, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      await axios.post('users/logout', credentials);
+      await axios.post('users/logout');
 
       clearAuthHeader();
     } catch (error) {
@@ -54,7 +54,7 @@ export const logOut = createAsyncThunk(
 
 export const refreshUser = createAsyncThunk(
   'auth/refresh',
-  async (credentials, { getState, rejectWithValue }) => {
+  async (_, { getState, rejectWithValue }) => {
     const state = getState();
     const persistedToken = state.auth.token;
 
@@ -65,7 +65,7 @@ export const refreshUser = createAsyncThunk(
     try {
       setAuthHeader(persistedToken);
 
-      const { data } = await axios.get('users/current', credentials);
+      const { data } = await axios.get('users/current');
 
       return data;
     } catch (error) {
