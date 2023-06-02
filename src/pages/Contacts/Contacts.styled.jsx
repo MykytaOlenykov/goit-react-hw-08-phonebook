@@ -2,6 +2,22 @@ import styled from 'styled-components';
 import backgroundImg from 'images/background.jpg';
 import backgroundImg2x from 'images/background@2x.jpg';
 
+export const ErrorText = styled.p`
+  width: 100%;
+  text-align: center;
+  font-size: 20px;
+  line-height: 1.5;
+  color: ${({ theme }) => theme.colors.secondary};
+
+  @media screen and (min-width: 420px) {
+    font-size: 24px;
+  }
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoint}) {
+    font-size: 28px;
+  }
+`;
+
 export const Section = styled.section`
   display: flex;
   gap: 48px;

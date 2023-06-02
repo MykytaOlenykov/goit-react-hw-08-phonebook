@@ -6,7 +6,18 @@ import { Loader } from 'components/Loader';
 import * as S from './Contacts.styled';
 
 const Contacts = () => {
-  const { data, isSuccess, isFetching } = useFetchContactsQuery();
+  const { data, isSuccess, isFetching, isError } = useFetchContactsQuery();
+
+  if (isError) {
+    return (
+      <S.Section>
+        <S.ErrorText>
+          Technical work is in progress. We apologize for the temporary
+          inconvenience.
+        </S.ErrorText>
+      </S.Section>
+    );
+  }
 
   return (
     <S.Section>
