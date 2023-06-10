@@ -69,6 +69,7 @@ export const AddContactForm = ({ contacts }) => {
   return (
     <S.ContactForm
       autoComplete="off"
+      noValidate
       onSubmit={handleSubmit(data => {
         onSubmit(data);
       })}

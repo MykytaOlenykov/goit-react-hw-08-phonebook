@@ -101,6 +101,7 @@ export const EditContactForm = ({ id, name: oldName, number: oldNumber }) => {
   return (
     <S.ContactForm
       autoComplete="off"
+      noValidate
       onSubmit={handleSubmit(data => {
         onSubmit(data);
       })}
