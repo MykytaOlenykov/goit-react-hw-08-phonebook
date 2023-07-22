@@ -64,9 +64,6 @@ export const EditContactForm = ({ id, name: oldName, number: oldNumber }) => {
     }
 
     if (number) {
-      if (contactValidationNumber(number)) {
-        return;
-      }
       data.number = number;
     }
 
@@ -76,22 +73,8 @@ export const EditContactForm = ({ id, name: oldName, number: oldNumber }) => {
   };
 
   const contactValidationName = newName => {
-    if (newName === oldName) {
-      toast.error('You entered the old name.');
-      return true;
-    }
-
     if (contacts.some(({ name }) => name === newName)) {
       toast.error(`${newName} is already in contacts.`);
-      return true;
-    }
-
-    return false;
-  };
-
-  const contactValidationNumber = newNumber => {
-    if (newNumber === oldNumber) {
-      toast.error('You entered the old phone number.');
       return true;
     }
 
