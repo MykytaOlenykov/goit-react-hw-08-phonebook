@@ -12,7 +12,7 @@ const filterSlice = createSlice({
     },
   },
   extraReducers: builder => {
-    builder.addCase(logOut.fulfilled, state => {
+    builder.addCase(logOut.fulfilled, () => {
       return '';
     });
   },
