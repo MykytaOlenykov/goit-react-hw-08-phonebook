@@ -1,16 +1,16 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import PropTypes from 'prop-types';
-import {
-  useUpdateContactMutation,
-  useFetchContactsQuery,
-} from 'redux/contacts/slice';
 import { Loader } from 'components/Loader';
 import { validatePattern, errorMessage } from 'constants';
 import * as S from './ContactForm.styled';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectContacts, selectError } from 'redux/contacts/selectors';
+import { clearError } from 'redux/contacts/slice';
+import { updateContact } from 'redux/contacts/operations';
 
 const schema = yup.object().shape({
   name: yup
@@ -39,19 +39,23 @@ export const EditContactForm = ({ id, name: oldName, number: oldNumber }) => {
     defaultValues: initialValues,
     resolver: yupResolver(schema),
   });
-  const [updateContact, { isLoading: isUpdating, isError }] =
-    useUpdateContactMutation();
-  const { data: contacts } = useFetchContactsQuery();
+  const [isUpdating, setIsUpdating] = useState(false);
+  const contacts = useSelector(selectContacts);
+  const error = useSelector(selectError);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isError) {
+    if (error) {
       toast.error(
         'Something went wrong while updating the contact, please try again later.'
       );
+      dispatch(clearError());
     }
-  }, [isError]);
+  }, [error, dispatch]);
 
   const onSubmit = async ({ name, number }) => {
+    setIsUpdating(true);
+
     const normalizedName = name.trim();
 
     let data = {};
@@ -67,9 +71,10 @@ export const EditContactForm = ({ id, name: oldName, number: oldNumber }) => {
       data.number = number;
     }
 
-    await updateContact({ id, data });
+    await dispatch(updateContact({ id, data }));
 
     reset();
+    setIsUpdating(false);
   };
 
   const contactValidationName = newName => {

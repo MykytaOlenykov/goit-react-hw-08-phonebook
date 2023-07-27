@@ -4,10 +4,13 @@ import { toast } from 'react-hot-toast';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import PropTypes from 'prop-types';
-import { useAddContactMutation } from 'redux/contacts/slice';
 import { Loader } from 'components/Loader';
 import { validatePattern, errorMessage } from 'constants';
 import * as S from './ContactForm.styled';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectError, selectIsAdding } from 'redux/contacts/selectors';
+import { clearError } from 'redux/contacts/slice';
+import { addContact } from 'redux/contacts/operations';
 
 const schema = yup.object().shape({
   name: yup
@@ -39,16 +42,18 @@ export const AddContactForm = ({ contacts }) => {
     defaultValues: initialValues,
     resolver: yupResolver(schema),
   });
-  const [addContact, { isLoading: isAdding, isError }] =
-    useAddContactMutation();
+  const isAdding = useSelector(selectIsAdding);
+  const error = useSelector(selectError);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isError) {
+    if (error) {
       toast.error(
         'Something went wrong while adding a contact, please try again later.'
       );
+      dispatch(clearError());
     }
-  }, [isError]);
+  }, [error, dispatch]);
 
   const onSubmit = async ({ name, number }) => {
     const normalizedName = name.trim();
@@ -58,7 +63,8 @@ export const AddContactForm = ({ contacts }) => {
       return;
     }
 
-    await addContact({ name: normalizedName, number });
+    dispatch(addContact({ name: normalizedName, number }));
+
     reset();
   };
 

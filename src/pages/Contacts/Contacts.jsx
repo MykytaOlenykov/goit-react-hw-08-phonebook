@@ -1,14 +1,32 @@
-import { useFetchContactsQuery } from 'redux/contacts/slice';
 import { AddContactForm } from 'components/ContactForm';
 import { Filter } from 'components/Filter';
 import { ContactList } from 'components/ContactList';
-import { Loader } from 'components/Loader';
 import * as S from './Contacts.styled';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  selectContacts,
+  selectError,
+  selectIsLoading,
+} from 'redux/contacts/selectors';
+import { useEffect } from 'react';
+import { fetchContacts } from 'redux/contacts/operations';
+import { PageLoader } from 'components/Loader';
 
 const Contacts = () => {
-  const { data, isSuccess, isFetching, isError } = useFetchContactsQuery();
+  const dispatch = useDispatch();
+  const error = useSelector(selectError);
+  const contacts = useSelector(selectContacts);
+  const isLoading = useSelector(selectIsLoading);
 
-  if (isError) {
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
+  if (isLoading) {
+    return <PageLoader />;
+  }
+
+  if (error) {
     return (
       <S.Section>
         <S.ErrorText>
@@ -23,17 +41,16 @@ const Contacts = () => {
     <S.Section>
       <S.SectionTitle>Phonebook</S.SectionTitle>
 
-      <AddContactForm contacts={data} />
+      <AddContactForm contacts={contacts} />
 
       <S.ContactsContainer>
         <S.TextBox>
           <S.Title>Contacts</S.Title>
-          {isFetching && <Loader width="20" height="20" color="#4FD1C5" />}
         </S.TextBox>
 
         <Filter />
-        {isSuccess && data.length ? (
-          <ContactList contacts={data} />
+        {contacts.length ? (
+          <ContactList contacts={contacts} />
         ) : (
           <S.Text>
             You don't have any contacts. Add contacts for them to appear here.
