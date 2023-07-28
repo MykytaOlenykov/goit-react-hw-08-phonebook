@@ -50,7 +50,7 @@ const Contacts = () => {
 
         <Filter />
         {contacts.length ? (
-          <ContactList contacts={contacts} />
+          <ContactList />
         ) : (
           <S.Text>
             You don't have any contacts. Add contacts for them to appear here.
