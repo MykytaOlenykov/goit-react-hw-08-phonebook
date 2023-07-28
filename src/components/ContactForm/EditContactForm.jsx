@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -8,8 +8,7 @@ import { Loader } from 'components/Loader';
 import { validatePattern, errorMessage } from 'constants';
 import * as S from './ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectContacts, selectError } from 'redux/contacts/selectors';
-import { clearError } from 'redux/contacts/slice';
+import { selectContacts } from 'redux/contacts/selectors';
 import { updateContact } from 'redux/contacts/operations';
 
 const schema = yup.object().shape({
@@ -41,17 +40,7 @@ export const EditContactForm = ({ id, name: oldName, number: oldNumber }) => {
   });
   const [isUpdating, setIsUpdating] = useState(false);
   const contacts = useSelector(selectContacts);
-  const error = useSelector(selectError);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (error) {
-      toast.error(
-        'Something went wrong while updating the contact, please try again later.'
-      );
-      dispatch(clearError());
-    }
-  }, [error, dispatch]);
 
   const onSubmit = async ({ name, number }) => {
     setIsUpdating(true);

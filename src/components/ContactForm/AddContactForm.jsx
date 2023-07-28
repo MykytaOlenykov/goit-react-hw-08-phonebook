@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -8,8 +7,7 @@ import { Loader } from 'components/Loader';
 import { validatePattern, errorMessage } from 'constants';
 import * as S from './ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectError, selectIsAdding } from 'redux/contacts/selectors';
-import { clearError } from 'redux/contacts/slice';
+import { selectIsAdding } from 'redux/contacts/selectors';
 import { addContact } from 'redux/contacts/operations';
 
 const schema = yup.object().shape({
@@ -43,17 +41,7 @@ export const AddContactForm = ({ contacts }) => {
     resolver: yupResolver(schema),
   });
   const isAdding = useSelector(selectIsAdding);
-  const error = useSelector(selectError);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (error) {
-      toast.error(
-        'Something went wrong while adding a contact, please try again later.'
-      );
-      dispatch(clearError());
-    }
-  }, [error, dispatch]);
 
   const onSubmit = async ({ name, number }) => {
     const normalizedName = name.trim();
